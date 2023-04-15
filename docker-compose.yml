@@ -1,0 +1,36 @@
+version: '3'
+
+services:
+  redis-server: 
+    container_name: redis-ratelimiting
+    image: 'redis'
+    ports:
+      - "6379:6379"
+  kong-fixed:
+    container_name: kong-fixed
+    image: kong:3.2.2
+    ports:
+    - 9000:8000
+    - 9001:8001
+    volumes:
+    - ./kong.yaml:/usr/local/kong/declarative/kong.yaml
+    - ./kong/plugins/rate-limiting:/usr/local/share/lua/5.1/kong/plugins/rate-limiting
+    environment:
+      KONG_DATABASE: 'off'
+      KONG_DECLARATIVE_CONFIG: '/usr/local/kong/declarative/kong.yaml'
+      KONG_PROXY_LISTEN: '0.0.0.0:8000'
+      KONG_ADMIN_LISTEN: '0.0.0.0:8001'
+
+  kong:
+    container_name: kong
+    image: kong:3.2.2
+    ports:
+    - 8000:8000
+    - 8001:8001
+    volumes:
+    - ./kong.yaml:/usr/local/kong/declarative/kong.yaml
+    environment:
+      KONG_DATABASE: 'off'
+      KONG_DECLARATIVE_CONFIG: '/usr/local/kong/declarative/kong.yaml'
+      KONG_PROXY_LISTEN: '0.0.0.0:8000'
+      KONG_ADMIN_LISTEN: '0.0.0.0:8001'

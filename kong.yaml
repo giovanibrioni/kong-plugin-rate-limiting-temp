@@ -1,0 +1,17 @@
+_format_version: "2.1"
+
+services:
+  - name: kong-admin
+    url: http://localhost:8001
+
+    routes:
+    - name: route-kong-admin
+      paths: [ "/admin" ]
+      strip_path: true
+    plugins:
+    - name: rate-limiting
+      config:
+        minute: 1
+        policy: redis
+        redis_host: redis-server
+        redis_port: 6379

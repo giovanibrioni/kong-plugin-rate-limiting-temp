@@ -1,0 +1,16 @@
+.idea
+*.rock
+venv
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class# servroot typically is the Kong working directory for tests
+servroot
+# exclude Pongo shell history
+.pongo/.bash_history
+# exclude LuaCov statistics file
+luacov.stats.out
+# exclude LuaCov report
+luacov.report.out
+# exclude Pongo containerid file
+.containerid
